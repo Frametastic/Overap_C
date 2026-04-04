@@ -6,9 +6,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **MealOverlap** is a meal planning app whose core idea is **overlapping ingredients** across dishes to reduce food waste and shopping costs. The project follows an iterative MVP approach. Language context: the product spec and user-facing content are in German.
 
-**Current status: Phase 0 (Planning & Documentation) — no application code exists yet.**
+**Current status: Phase 1 (MVP) — scaffolding complete, DB schema + seed data deployed.**
 
-## Tech Stack (Planned)
+## Tech Stack
 
 | Layer | Technology |
 |-------|-----------|
@@ -58,6 +58,7 @@ Out of scope for MVP: supermarket price comparison, optimal package sizes, organ
 - **Small steps**: one feature/component at a time, each step deployable and testable
 - **Document decisions**: record important architecture decisions
 - **Ask when unclear**: always clarify requirements before coding
+- **Track progress**: after every significant change (new feature, setup step, schema change), update the project progress memory (`memory/project_progress.md`) so the next session knows exactly where we left off. This includes: what was completed, what's next, and any blockers or open questions.
 
 ## Git & GitHub Workflow
 
