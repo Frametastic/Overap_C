@@ -1,12 +1,12 @@
 import { createClient } from '@supabase/supabase-js'
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string
+const supabaseKey = import.meta.env.VITE_SUPABASE_API_KEY as string
 
-if (!supabaseUrl || !supabaseAnonKey) {
+if (!supabaseUrl || !supabaseKey) {
   console.warn(
-    'Supabase credentials missing. Copy .env.example to .env and fill in your project values.',
+    'Supabase credentials missing. Set VITE_SUPABASE_URL and VITE_SUPABASE_API_KEY in .env',
   )
 }
 
-export const supabase = createClient(supabaseUrl ?? '', supabaseAnonKey ?? '')
+export const supabase = createClient(supabaseUrl ?? '', supabaseKey ?? '')

@@ -33,22 +33,38 @@ A slider controls the balance between variety and cost savings:
 
 ## Data Model
 
-- **User** → preferred dishes (m2m), preferred ingredients (m2m), meal plans (1:n)
+- **User** → profile (name, email, location, intolerances, preference α), meal plans (1:n)
 - **Gericht (Dish)** → ingredients (m2m with quantity + unit), category (breakfast/lunch/dinner/snack)
 - **Zutat (Ingredient)** → name, unit, category
 - **Wochenplan (Meal Plan)** → week date, entries (dish + weekday + meal slot)
 - **Einkaufsliste (Shopping List)** → auto-aggregated from meal plan
 
-## MVP Scope (Phase 1)
+## App Concept & User Flow
 
-1. Onboarding — user picks favorite dishes and/or ingredients
-2. Dish suggestions — based on overlap with already-selected dishes
-3. Overlap slider — variety ↔ cost savings
-4. Weekly plan view — assign dishes to weekdays, drag & drop
-5. Shopping list — auto-generated, consolidated quantities
-6. Profile management — edit onboarding selections
+### Core Experience: Dish Selection & Overlap Suggestions
+The **dish selection is the heart of the app** and lives on the main screen (not in onboarding). The user picks dishes for their weekly plan, and the app continuously suggests new dishes based on ingredient overlap with already-selected dishes. This is an always-available, iterative process — not a one-time setup.
 
-Out of scope for MVP: supermarket price comparison, optimal package sizes, organic/regional filters, supermarket API integration.
+### Onboarding (one-time setup)
+Onboarding runs once on first launch and collects the user's profile:
+1. **Name** — first name, last name
+2. **Email** — for account/communication
+3. **Location** — for nearby supermarket deals (future feature)
+4. **Intolerances / dietary restrictions** — to filter out incompatible dishes
+5. **Preference slider** — variety ↔ cost savings (α parameter for the overlap algorithm)
+
+After onboarding, the user goes straight to the main dish selection screen. Onboarding data can be edited later in the profile.
+
+### MVP Scope (Phase 1)
+
+1. Onboarding — one-time profile setup (name, email, location, intolerances, preference slider)
+2. Dish selection — browse/search dishes, add to weekly plan
+3. Overlap-based suggestions — app suggests dishes that share ingredients with current selection
+4. Overlap slider — variety ↔ cost savings (set in onboarding, adjustable anytime)
+5. Weekly plan view — assign dishes to weekdays, drag & drop
+6. Shopping list — auto-generated, consolidated quantities
+7. Profile management — edit onboarding data (intolerances, preferences, etc.)
+
+Out of scope for MVP: supermarket price comparison, optimal package sizes, organic/regional filters, supermarket API integration, location-based deals.
 
 ## Development Principles
 
