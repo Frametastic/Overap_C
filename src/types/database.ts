@@ -3,6 +3,7 @@ export interface Zutat {
   name: string
   einheit: string
   kategorie: ZutatKategorie
+  preis_pro_einheit: number | null
   created_at: string
 }
 
