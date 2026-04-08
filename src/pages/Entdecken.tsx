@@ -3,6 +3,7 @@ import { Link } from 'react-router'
 import { fetchGerichte, type GerichtCard } from '@/lib/gerichte'
 import { rankByOverlap, countOverlapping } from '@/lib/overlap'
 import { useMealPlan } from '@/context/MealPlanContext'
+import { loadProfile, saveProfile } from '@/lib/profile'
 
 const KATEGORIE_COLORS: Record<string, string> = {
   'Frühstück': 'bg-amber-400',
@@ -41,18 +42,19 @@ export default function Entdecken() {
       .finally(() => setLoading(false))
   }, [])
 
-  // Read onboarding data
-  const onboardingData = (() => {
-    try {
-      return JSON.parse(localStorage.getItem('onboarding_data') ?? '{}')
-    } catch {
-      return {}
-    }
-  })()
+  // Read profile/onboarding data
+  const profileData = loadProfile()
+  const [alpha, setAlpha] = useState<number>(profileData?.preferenceAlpha ?? 0.5)
+  const anchorGerichtIds: string[] = profileData?.anchorGerichtIds ?? []
+  const anchorZutatenNames: string[] = profileData?.anchorZutaten ?? []
 
-  const alpha: number = onboardingData.preferenceAlpha ?? 0.5
-  const anchorGerichtIds: string[] = onboardingData.anchorGerichtIds ?? []
-  const anchorZutatenNames: string[] = onboardingData.anchorZutaten ?? []
+  const handleAlphaChange = useCallback((newAlpha: number) => {
+    setAlpha(newAlpha)
+    const current = loadProfile()
+    if (current) {
+      saveProfile({ ...current, preferenceAlpha: newAlpha })
+    }
+  }, [])
 
   // Build anchor zutat ID set from anchor gerichte + anchor zutat names
   const anchorIds = (() => {
@@ -163,6 +165,29 @@ export default function Entdecken() {
             ))}
           </div>
         )}
+
+        {/* Overlap slider */}
+        <div className="mb-4 bg-white rounded-xl border border-gray-100 px-4 py-3">
+          <div className="flex justify-between items-center text-xs font-medium mb-2">
+            <span className={alpha < 0.35 ? 'text-[#78A75A]' : 'text-gray-400'}>Vielfalt</span>
+            <span className="text-gray-500 text-[11px]">
+              {alpha < 0.35 ? 'Mehr Abwechslung' : alpha > 0.65 ? 'Mehr sparen' : 'Ausgewogen'}
+            </span>
+            <span className={alpha > 0.65 ? 'text-[#78A75A]' : 'text-gray-400'}>Sparen</span>
+          </div>
+          <input
+            type="range"
+            min={0}
+            max={1}
+            step={0.05}
+            value={alpha}
+            onChange={e => handleAlphaChange(Number(e.target.value))}
+            className="w-full h-2 rounded-full appearance-none cursor-pointer"
+            style={{
+              background: `linear-gradient(to right, #78A75A ${alpha * 100}%, #e5e7eb ${alpha * 100}%)`,
+            }}
+          />
+        </div>
 
         {/* Stats bar */}
         <div className="flex justify-between items-center text-xs text-gray-400 mb-3">

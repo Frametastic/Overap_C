@@ -2,23 +2,10 @@ import { useState, useEffect } from 'react'
 import logo from '@/assets/logo.svg'
 import geldImg from '@/assets/Geld.png'
 import { fetchGerichte, type GerichtCard } from '@/lib/gerichte'
+import { INTOLERANCES } from '@/lib/profile'
 
 const TOTAL_STEPS = 11
 const DATA_STEP_START = 5
-
-const INTOLERANCES = [
-  'Laktose',
-  'Gluten',
-  'Nüsse',
-  'Meeresfrüchte',
-  'Eier',
-  'Soja',
-  'Sellerie',
-  'Senf',
-  'Sesam',
-  'Vegetarisch',
-  'Vegan',
-] as const
 
 interface OnboardingData {
   firstName: string
