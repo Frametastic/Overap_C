@@ -14,6 +14,7 @@ export interface GerichtCard {
   name: string
   kategorie: GerichtKategorie
   beschreibung: string | null
+  bildUrl: string | null
   zutaten: ZutatInfo[]
   zutatIds: Set<string>
   kostenEuro: number
@@ -23,7 +24,7 @@ export async function fetchGerichte(): Promise<GerichtCard[]> {
   const { data, error } = await supabase
     .from('gerichte')
     .select(`
-      id, name, kategorie, beschreibung,
+      id, name, kategorie, beschreibung, bild_url,
       gericht_zutaten (
         menge, einheit,
         zutaten ( id, name, preis_pro_einheit, kategorie )
@@ -55,6 +56,7 @@ export async function fetchGerichte(): Promise<GerichtCard[]> {
       name: g.name,
       kategorie: g.kategorie,
       beschreibung: g.beschreibung,
+      bildUrl: g.bild_url ?? null,
       zutaten,
       zutatIds,
       kostenEuro: Math.round(kostenEuro * 100) / 100,

@@ -366,10 +366,21 @@ function DesktopCard({
 
   return (
     <div className="group rounded-2xl overflow-hidden bg-white border border-gray-100 shadow-sm hover:shadow-lg transition-shadow">
-      <div className={`${bgColor} px-4 py-5 relative`}>
-        <span className="text-3xl">{emoji}</span>
+      <div className={`${bgColor} relative`}>
+        {gericht.bildUrl ? (
+          <img
+            src={gericht.bildUrl}
+            alt={gericht.name}
+            className="w-full h-36 object-cover"
+            loading="lazy"
+          />
+        ) : (
+          <div className="px-4 py-5">
+            <span className="text-3xl">{emoji}</span>
+          </div>
+        )}
         <div className="absolute top-3 right-3">
-          <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${tagColor}`}>
+          <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${tagColor} backdrop-blur-sm`}>
             {gericht.kategorie}
           </span>
         </div>
@@ -511,9 +522,19 @@ function SwipeCard({
       onPointerLeave={handleEnd}
     >
       <div className="rounded-2xl shadow-lg overflow-hidden bg-white border border-gray-100">
-        <div className={`${bgColor} px-5 py-8 text-white relative`}>
-          <span className="text-5xl">{emoji}</span>
-          <div className="absolute top-4 right-4 bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 text-xs font-medium">
+        <div className={`${bgColor} relative`}>
+          {gericht.bildUrl ? (
+            <img
+              src={gericht.bildUrl}
+              alt={gericht.name}
+              className="w-full h-48 object-cover"
+            />
+          ) : (
+            <div className="px-5 py-8">
+              <span className="text-5xl">{emoji}</span>
+            </div>
+          )}
+          <div className="absolute top-4 right-4 bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 text-xs font-medium text-white">
             {gericht.kategorie}
           </div>
           {offset > 50 && (
@@ -522,7 +543,7 @@ function SwipeCard({
             </div>
           )}
           {offset < -50 && (
-            <div className="absolute top-4 right-4 bg-red-400 text-white rounded-lg px-3 py-1 text-sm font-bold rotate-[12deg]">
+            <div className="absolute top-4 left-4 bg-red-400 text-white rounded-lg px-3 py-1 text-sm font-bold rotate-[12deg]">
               NOPE
             </div>
           )}
